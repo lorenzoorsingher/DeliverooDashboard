@@ -1,0 +1,212 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dashboard</title>
+    <style>
+      .plan_tile {
+        width: 80%;
+        height: 80%;
+      }
+
+      .parc_table {
+        border: 1px solid black;
+        display: inline-block;
+      }
+
+      .main_tile {
+        display: table;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      socket.on("map", (data) => {
+        w = data["map_size"][0];
+        h = data["map_size"][1];
+        tiles = data["tiles"];
+        parcels = data["parc"];
+        riders = data["riders"];
+
+        // preset colors for paths and riders
+        let pathcolors = [
+          "blue",
+          "violet",
+          "lightgrey",
+          "MediumSeaGreen",
+          "black",
+          "white",
+        ];
+        let ridercolor = [
+          "lightblue",
+          "pink",
+          "grey",
+          "darkgreen",
+          "darkgrey",
+          "white",
+        ];
+
+        // MAP TABLE ---------------------------------------------------------------------------------------
+        const table = document.getElementById("mapTable");
+        table.innerHTML = "";
+
+        for (let i = 0; i < h; i++) {
+          let y = h - i - 1;
+          let row = table.insertRow();
+
+          for (let j = 0; j < w; j++) {
+            let x = j;
+
+            let tile = row.insertCell();
+
+            tile_html = "<div class='main_tile'>";
+            tile.style.width = "20px";
+            tile.style.height = "20px";
+
+            // set cell color based on tile type
+            let color = "black";
+            switch (tiles[y][j]["type"]) {
+              case "W":
+                color = "green";
+                break;
+              case "D":
+                color = "red";
+                break;
+            }
+
+            // check if there is a parcel on this tile
+            for (p of parcels) {
+              if (p.x == x && p.y == y) {
+                color = "yellow";
+                tile_html +=
+                  "<div style='position: absolute;'><b>" +
+                  p.reward +
+                  "</b></div>";
+              }
+            }
+
+            // draw the plan cells and color tiles according to plan
+            cell_id = x + "-" + y;
+            let to_pickup = false;
+            let to_deliver = false;
+            for (let rid = 0; rid < riders.length; rid++) {
+              plan_move = riders[rid].plan[0];
+              plan_pickup = riders[rid].plan[1];
+              plan_drop = riders[rid].plan[2];
+              blk_agents = riders[rid].blk_agents;
+
+              if (plan_move.includes(cell_id)) {
+                pathcolor = pathcolors[rid];
+
+                let style =
+                  "width:80%;height:80%;background-color:" + pathcolor + ";";
+                tile_html += "<div id='plan_tile' style='" + style + "'></div>";
+              }
+
+              if (plan_pickup.includes(cell_id)) {
+                to_pickup = true;
+              } else if (plan_drop.includes(cell_id)) {
+                to_deliver = true;
+              }
+            }
+
+            if (to_deliver) {
+              color = "orange";
+            }
+            if (to_pickup) {
+              color = "GreenYellow";
+            }
+
+            // draw the blocking agents
+            for (let rid = 0; rid < riders.length; rid++) {
+              blk_agents = riders[rid].blk_agents;
+
+              if (blk_agents.includes(cell_id)) {
+                color = "purple";
+              }
+            }
+            tile_html += "</div>";
+
+            tile.innerHTML = tile_html;
+            tile.style.backgroundColor = color;
+          }
+
+          // draw the y-axis
+          let tile = row.insertCell();
+          tile.innerHTML = "<div>" + y + "</div>";
+        }
+
+        // draw the x-axis
+        let row = table.insertRow();
+        for (let x = 0; x < w; x++) {
+          let tile = row.insertCell();
+          tile.innerHTML = "<div>" + x + "</div>";
+        }
+
+        // set cell corresponding to rider position
+        // to the color of the rider
+        for (let rid = 0; rid < riders.length; rid++) {
+          rider = riders[rid];
+          let y = Math.round(h - rider.y) - 1;
+          let x = Math.round(rider.x);
+
+          table.rows[y].cells[x].innerHTML = "<div></div>";
+          table.rows[y].cells[x].style.backgroundColor = ridercolor[rid];
+        }
+
+        // TABLE OF CARRIED PARCELS -----------------------------------------------------------------------
+        const carry_div = document.getElementById("carry_div");
+        carry_div_html = "";
+
+        for (let rid = 0; rid < riders.length; rid++) {
+          carry_div_html += '<table class="parc_table" id="my_carry_table">';
+          carry_div_html += '<tbody id="carry_table' + rid + '"></tbody>';
+          carry_div_html += "</table>";
+        }
+        carry_div.innerHTML = carry_div_html;
+        console.log(carry_div.innerHTML);
+
+        for (let rid = 0; rid < riders.length; rid++) {
+          let carry_table = document.getElementById("carry_table" + rid);
+          carry_table.innerHTML = "";
+          rider_parc = riders[rid].parcels;
+          for (let i = 0; i < rider_parc.length; i++) {
+            let row = carry_table.insertRow();
+
+            row.style.border = "1px solid #000";
+
+            let rider_cell = row.insertCell();
+            let key_cell = row.insertCell();
+            let rew_cell = row.insertCell();
+
+            rider_cell.style.border = "1px solid #000";
+            rider_cell.style.backgroundColor = ridercolor[rid];
+            key_cell.style.border = "1px solid #000";
+            rew_cell.style.border = "1px solid #000";
+
+            parcel = rider_parc[i];
+
+            rider_cell.innerHTML = "<div><b>Rider " + rid + "</b></div>";
+            key_cell.innerHTML = "<div><b>" + parcel.key + "</b></div>";
+            rew_cell.innerHTML = "<div><b>" + parcel.reward + "</b></div>";
+          }
+        }
+      });
+    </script>
+    <h1>GlovoJS</h1>
+
+    <div id="mapdiv">
+      <table id="myTable" class="table table-borderless table-striped">
+        <tbody id="mapTable"></tbody>
+      </table>
+    </div>
+    <div id="carry_div"></div>
+  </body>
+</html>
