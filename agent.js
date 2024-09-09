@@ -1,6 +1,5 @@
 console.log("Starting...");
 import { Field } from "./data/field.js";
-import { Position } from "./data/position.js";
 import { MyServer } from "./dashboard/server.js";
 import { DeliverooApi } from "@unitn-asa/deliveroo-js-client";
 

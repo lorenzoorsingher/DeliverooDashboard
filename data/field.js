@@ -1,8 +1,3 @@
-import { Tile } from "./tile.js";
-import { Position } from "./position.js";
-
-const VERBOSE = false;
-
 /**
  * Represents the game field where the agents move
  * and contains the functions to interact with it
@@ -29,8 +24,7 @@ export class Field {
             break;
           }
         }
-        let pos = new Position(j, i);
-        this.field[i][j] = new Tile(pos, found, delivery);
+        this.field[i][j] = { x: j, y: i, delivery: delivery, walkable: found };
       }
     }
   }
