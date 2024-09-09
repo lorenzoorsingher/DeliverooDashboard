@@ -6,8 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dashboard</title>
     <style>
+      html {
+        height: 100%;
+      }
       body {
-        background-color: lightcyan;
+        height: 100%;
+        margin: 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-image: linear-gradient(
+          to bottom right,
+
+          rgb(15, 192, 89),
+          rgb(255, 255, 255)
+        );
+      }
+      .header {
+        padding: 10px;
+        color: white;
+        font-size: 20px;
       }
       .plan_tile {
         width: 80%;
@@ -206,7 +223,9 @@
         }
       });
     </script>
-    <h1>Dashboard</h1>
+    <div class="header">
+      <h1>DeliverooDashboard</h1>
+    </div>
 
     <div id="mapdiv">
       <table id="myTable" class="table table-borderless table-striped">
