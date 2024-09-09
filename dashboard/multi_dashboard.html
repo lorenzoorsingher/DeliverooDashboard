@@ -6,24 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dashboard</title>
     <style>
-      html {
-        height: 100%;
+      * {
+        font-family: sans-serif;
       }
       body {
-        height: 100%;
-        margin: 0;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-image: linear-gradient(
-          to bottom right,
-
-          rgb(15, 192, 89),
-          rgb(255, 255, 255)
-        );
+        background-color: #55f7b8;
       }
       .header {
         padding: 10px;
-        color: white;
+        color: rgb(14, 78, 46);
         font-size: 20px;
       }
       .plan_tile {
@@ -32,16 +23,21 @@
       }
 
       .parc_table {
-        border: 1px solid black;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
         display: inline-block;
       }
-
+      .parc_table th,
+      .parc_table td {
+        padding: 5px 15px;
+      }
       .main_tile {
         display: table;
         width: 100%;
         height: 100%;
       }
-
       .parc_tile {
         position: absolute;
       }

@@ -42,7 +42,7 @@ export class Field {
     for (let i = 0; i < this.height; i++) {
       tiles[i] = [];
       for (let j = 0; j < this.width; j++) {
-        let cell = { type: "X", parcel: -1 };
+        let cell = { type: "X" };
         if (this.field[i][j].walkable) {
           cell["type"] = "W";
         }
