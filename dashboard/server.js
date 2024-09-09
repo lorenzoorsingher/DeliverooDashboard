@@ -9,7 +9,7 @@ export class MyServer {
     this.app = express();
     this.server = http.createServer(this.app);
     this.io = new Server(this.server);
-    console.log("Server constructor: ", port);
+    console.log("Server port: ", port);
     this.port = port;
     this.start();
     this.serveDashboard();

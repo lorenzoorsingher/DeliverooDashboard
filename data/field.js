@@ -4,7 +4,9 @@
  *
  */
 export class Field {
-  constructor() {}
+  constructor() {
+    this.map_init = false;
+  }
 
   init(width, height, tiles) {
     this.width = width;

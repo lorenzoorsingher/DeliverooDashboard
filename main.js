@@ -5,23 +5,26 @@ import { DeliverooApi } from "@unitn-asa/deliveroo-js-client";
 
 export const VERBOSE = false;
 
+// Set the port for the dashboard
 const PORT = 3001;
 
+// Create the dashboard server
 const dashboard = new MyServer(PORT);
 
-const map = new Field(); // contains the game map
-const parcels = new Map(); // contains all non-carried parcels
-let map_init = false;
+// Contains the map of the game
+const map = new Field();
+
+// Create the client
 const client = new DeliverooApi("http://localhost:8080/?name=rider", "");
 
 // load map
 client.onMap((width, height, tiles) => {
-  VERBOSE && console.log("Map received. Initializing...");
+  console.log("Map received. Initializing...");
 
   //init map only once
-  if (!map_init) {
+  if (!map.map_init) {
     map.init(width, height, tiles);
-    map_init = true;
+    map.map_init = true;
   }
 });
 
