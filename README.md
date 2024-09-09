@@ -62,7 +62,12 @@ In `main.js` we have provided an example of how to use the dashboard in your pro
 
 ## Dashboard
 
-To connect to the dashboard open `localhost:3001` on your browser. If you are running multiple instances of the game on the same machine, remember to use different port numbers for each dashboard, you can change the port number when creating the server object.
+To connect to the dashboard open `localhost:3001` on your browser. If you are running multiple instances of the game on the same machine, remember to use different port numbers for each dashboard. You can change the port number when creating the server object:
+
+```javascript
+const PORT = 3001;
+const dashboard = new MyServer(PORT);
+```
 
 <p align="center">
 <img src="images/dashboard.gif" style="display:block;float:none;margin-left:auto;margin-right:auto;width:60%"/>
@@ -80,7 +85,7 @@ To connect to the dashboard open `localhost:3001` on your browser. If you are ru
 
 - Delivery zones are colored in **red**
 
-- At the bottom the parcels currently being carried by the agents are displayed in separate tables
+- At the bottom, the parcels currently being carried by your agents are displayed in separate columns
 
 ## Authors
 
