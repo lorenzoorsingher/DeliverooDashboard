@@ -97,7 +97,7 @@
               }
             }
 
-            // draw the plan cells and color tiles according to plan
+            // draw the plan cells and color the tiles according to plan
             cell_id = x + "-" + y;
             let to_pickup = false;
             let to_deliver = false;
@@ -110,23 +110,24 @@
               if (plan_move.includes(cell_id)) {
                 pathcolor = pathcolors[rid];
 
-                let style =
-                  "width:80%;height:80%;background-color:" + pathcolor + ";";
-                tile_html += "<div id='plan_tile' style='" + style + "'></div>";
+                let style = "background-color:" + pathcolor + ";";
+                tile_html +=
+                  "<div class='plan_tile' style='" + style + "'></div>";
               }
 
               if (plan_pickup.includes(cell_id)) {
                 to_pickup = true;
-              } else if (plan_drop.includes(cell_id)) {
+              }
+              if (plan_drop.includes(cell_id)) {
                 to_deliver = true;
               }
             }
 
-            if (to_deliver) {
-              color = "orange";
-            }
             if (to_pickup) {
               color = "GreenYellow";
+            }
+            if (to_deliver) {
+              color = "orange";
             }
 
             // draw the blocking agents
