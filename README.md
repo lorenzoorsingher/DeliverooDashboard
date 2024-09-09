@@ -2,7 +2,7 @@
 
 ## What is DeliverooDashboard?
 
-[Deliveroo.js](https://github.com/unitn-ASA/Deliveroo.js) is an educational game developed for the course of Automonous Software Agents at the University of Trento, **DeliverooDashboard** is a barebone implementation of the debugging dashboard used in our project [GlovoJS](https://github.com/lorenzoorsingher/GlovoJS). Visualizing the game state in real-time proved to be very useful for debugging errors and understanding the agents' behavior.
+[Deliveroo.js](https://github.com/unitn-ASA/Deliveroo.js) is an educational game developed for the course of Automonous Software Agents at the University of Trento, **DeliverooDashboard** is a barebone implementation of the debugging dashboard used in our project [GlovoJS](https://github.com/lorenzoorsingher/ASA_Glovojs). Visualizing the game state in real-time proved to be very useful for debugging errors and understanding the agents' behavior.
 
 ## Project Structure
 
